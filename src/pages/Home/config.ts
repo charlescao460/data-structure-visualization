@@ -13,43 +13,51 @@ export const homeItemsConfig: Omit<IHomeItemProps, 'onClick'>[][] = [
     [
         {
             src: SortPic,
-            tags: ['数组', '冒泡', '选择', '快排'],
-            title: '排序',
+            tags: ['Array', 'Bubble Sort', 'Selection Sort', 'Quick Sort'],
+            title: 'Sorting',
             type: DataStrucTypes.Sort
         },
         // {
         //     src: LinkedListPic,
         //     tag: <Tags type={DataStrucTypes.LinkedList} />,
-        //     title: '链表',
+        //     title: 'Linked List',
         //     type: DataStrucTypes.LinkedList
         // },
         {
             src: StackPic,
-            tags: ['栈', '压栈', '弹栈'],
-            title: '栈',
+            tags: ['Stack', 'Push Stack', 'Pop Stack'],
+            title: 'Stack',
             type: DataStrucTypes.Stack
         },
         {
             src: QueuePic,
-            tags: ['队列', '入队', '出队'],
-            title: '队列',
+            tags: ['Queue', 'Enqueue', 'Dequeue'],
+            title: 'Queue',
             type: DataStrucTypes.Queue
         },
         {
             src: BinaryHeap,
-            tags: ['二叉堆', '大顶堆'],
-            title: '二叉堆',
+            tags: ['Binary Heap', 'Max Heap'],
+            title: 'Binary Heap',
             type: DataStrucTypes.BinaryHeap
         },
+        
 
     ],
     [
         {
             src: BinarySearchTree,
-            tags: ['二叉搜索树', '遍历', '搜索'],
-            title: '二叉搜索树',
+            tags: ['Binary Search Tree', 'Traversal', 'Search'],
+            title: 'Binary Search Tree',
             type: DataStrucTypes.BinarySearchTree
         },
+        // {
+        //     src: BinarySearchTree,
+        //     tags: ['Linked List'],
+        //     title: 'Linked List',
+        //     type: DataStrucTypes.LinkedList
+        // },
+
         // {
         //     src: Pic,
         //     tags: ['哈希表'],
@@ -57,8 +65,8 @@ export const homeItemsConfig: Omit<IHomeItemProps, 'onClick'>[][] = [
         //     type: DataStrucTypes.HashTable
         // },
         // {
-        //     src: Pic,
-        //     tags: ['图论'],
+        //     src: BinarySearchTree,
+        //     tags: ['Graph'],
         //     title: '图结构',
         //     type: DataStrucTypes.Graph
         // },

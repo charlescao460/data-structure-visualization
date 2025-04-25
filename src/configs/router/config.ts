@@ -7,7 +7,7 @@ import BinaryHeap from '../../pages/BinaryHeap/binaryHeap'
 import Queue from '../../pages/Queue/queue'
 import Stack from '../../pages/Stack/stack'
 // import HashTable from '../../pages/HashTable/hashTable'
-// import LinkedList from '../../pages/LinkedList/linkedList'
+import LinkedList from '../../pages/LinkedList/linkedList'
 // import RedBlackTree from '../../pages/RedBlackTree/redBlackTree'
 // import BPlusTree from '../../pages/BPlusTree/bPlusTree'
 import BinarySearchTree from '../../pages/BinarySearchTree/binarySearchTree'
@@ -50,6 +50,10 @@ const routers = [
         path: root + "/hashTable",
         page: HashTable
     },
+    // {
+    //     path: root + "/linkedList",
+    //     page: LinkedList
+    // },
     // {
     //     path: root + "/avlTree",
     //     page: AVLTree

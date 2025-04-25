@@ -27,15 +27,15 @@ const BinarySearchTree = () => {
         }
     });
 
-    /** 场景是否加载完毕 */
+    /** Whether the scene is loaded */
     const [isSceneLoaded, setIsSceneLoaded] = useState(false);
 
-    /** 处理场景加载完毕回调 */
+    /** Handle the scene loaded callback */
     const handleSceneLoaded = () => {
         setIsSceneLoaded(true);
     }
 
-    /** 渲染input输入的数据 */
+    /** Render the input data */
     const handleRender = (value: string) => {
         const parseRes = parseValue(value);
         console.log(parseRes);
@@ -43,50 +43,41 @@ const BinarySearchTree = () => {
             let sequence = initSeq(parseRes);
             excuteSeq(sequence, config.animationSpeed, dispatch);
         } else {
-            message.warning('输入的数据格式有误，请按照 "[1,3,8,2]" 类似格式输入')
+            message.warning('Invalid data format. Please input in a format like "[1,3,8,2]"')
         }
     }
 
-    /** 添加元素 */
+    /** Add an element */
     const handleAddEle = (index: number, value: number) => {
         dispatch({ type: ActionTypes.UnLock })
         let sequence: SeqType = [];
         addNodeSeq(state.binaryTree, 0, value, sequence);
 
-        // 判断一下最后要添加的元素的下标对应的层数是不是小于等于配置项的最大层数
+        // Check if the level of the last element to be added is less than or equal to the maximum level in the configuration
         if (getDeepthByNodeIndex(sequence[sequence.length - 2][0].payload) === config.maxDeepth) {
             setTimeout(() => {
-                message.warning(`添加失败，二叉树最大层数为${config.maxDeepth + 1}`)
+                message.warning(`Failed to add. The maximum level of the binary tree is ${config.maxDeepth + 1}`)
             }, sequence.length * config.animationSpeed)
         }
         excuteSeq(sequence, config.animationSpeed, dispatch)
     }
 
-    /** 删除元素 */
+    /** Delete an element */
     const handleDeleteEle = (index: number) => {
         dispatch({ type: ActionTypes.UnLock })
 
-        // 验证一下输入的序号
+        // Validate the input index
         if (!state.binaryTree[index] && state.binaryTree[index] !== 0) {
-            return message.warning('删除失败，输入的结点序号不存在')
+            return message.warning('Failed to delete. The input node index does not exist')
         }
 
         let sequence: SeqType = [];
         deleteNodeSeq(state.binaryTree, index, 0, sequence);
 
         excuteSeq(sequence, config.animationSpeed, dispatch)
-        // console.log(sequence);
-        // sequence.forEach((events, i) => {
-        //     setTimeout(() => {
-        //         events.forEach((event) => {
-        //             dispatch(event)
-        //         })
-
-        //     }, i * config.animationSpeed)
-        // })
     }
 
-    /** 搜索元素 */
+    /** Search for an element */
     const handleSearch = (index: number, value: number) => {
         dispatch({ type: ActionTypes.UnLock })
 
@@ -94,27 +85,27 @@ const BinarySearchTree = () => {
         searchSeq(state.binaryTree, value, 0, sequence);
         excuteSeq(sequence, config.animationSpeed, dispatch);
 
-        // 如果最后一个操作的下标对应的值不等于value，则说明没有查找到目标元素
+        // If the value of the last operation's index is not equal to the target value, it means the target element was not found
         if (state.binaryTree[([...sequence].pop() as IAction[])[0].payload] !== value) {
             setTimeout(() => {
-                message.warning(`没有查找到取值为 ${value} 的元素`);
+                message.warning(`The element with the value ${value} was not found`);
             }, (sequence.length) * config.animationSpeed)
         }
     }
 
-    /** 处理随机元素 */
+    /** Handle random elements */
     const handleRandom = () => {
         let sequence = initSeq(randomBST(config.geoNumRange, config.geoValueRange, config.maxDeepth));
         excuteSeq(sequence, config.animationSpeed, dispatch);
     }
 
-    /** 前序遍历 */
+    /** Preorder traversal */
     const handlePreorder = () => {
 
         let sequence: SeqType = [];
         preOrderSeq(state.binaryTree, 0, sequence);
 
-        // 获取遍历的结果
+        // Get the traversal result
         const preOrderRes: number[] = [];
         sequence.forEach((event) => {
             if (event[0].type === ActionTypes.Active) preOrderRes.push(state.binaryTree[event[0].payload] as number)
@@ -124,12 +115,12 @@ const BinarySearchTree = () => {
         excuteSeq(sequence, config.animationSpeed, dispatch);
     }
 
-    /** 中序遍历 */
+    /** Inorder traversal */
     const handleInorder = () => {
         let sequence: SeqType = [];
         inOrderSeq(state.binaryTree, 0, sequence);
 
-        // 获取遍历的结果
+        // Get the traversal result
         const inOrderRes: number[] = [];
         sequence.forEach((events) => {
             if (events[0].type === ActionTypes.Active) inOrderRes.push(state.binaryTree[events[0].payload] as number)
@@ -140,7 +131,7 @@ const BinarySearchTree = () => {
 
     }
 
-    /** 后序遍历 */
+    /** Postorder traversal */
     const handlePostorder = () => {
         let sequence: SeqType = [];
         postOrderSeq(state.binaryTree, 0, sequence);
@@ -152,7 +143,7 @@ const BinarySearchTree = () => {
         excuteSeq(sequence, config.animationSpeed, dispatch);
     }
 
-    /** 处理动画速度改变 */
+    /** Handle animation speed change */
     const handleSliderChange = (x: number) => {
         config.animationSpeed = -7.95 * x + 1000
     }
@@ -170,7 +161,7 @@ const BinarySearchTree = () => {
                     history.replace(root)
                     window.location.reload();
                 }}
-                title='二叉搜索树'
+                title='Binary Search Tree'
             />
             <div className='main'>
                 <Scene3d
@@ -178,16 +169,16 @@ const BinarySearchTree = () => {
                     cameraPosZ={config.cameraPosZ}
                 >
                     {state.spheres.map((sphere, i) => {
-                        // 判断当前结点是否有左孩子
+                        // Check if the current node has a left child
                         const hasLChild = getLChildValue(state.spheres, sphere.sortIndex)?.value;
 
-                        // 获取左结点的位置(加上前面的这个判断是为了在删除元素时，会设置与之连接的父结点的那条线为null)
+                        // Get the position of the left child (adding this check to set the line connecting to the parent node to null when deleting an element)
                         const lChildPos = sphere.lChildPos !== null && getLChildValue(cdnOfNodes, sphere.sortIndex);
 
-                        // 判断当前结点是否有右孩子
+                        // Check if the current node has a right child
                         const hasRChild = getRChildValue(state.spheres, sphere.sortIndex)?.value;
 
-                        // 获取右结点的位置
+                        // Get the position of the right child
                         const rChildPos = sphere.rChildPos !== null && getRChildValue(cdnOfNodes, sphere.sortIndex);
 
                         return (
@@ -226,19 +217,19 @@ const BinarySearchTree = () => {
                         hasIndex: false,
                         hasValue: true,
                         valueRange: config.geoValueRange,
-                        radioName: '添加'
+                        radioName: 'Add'
                     }}
                     deleteConfig={{
                         hasIndex: true,
                         hasValue: false,
                         indexRange: [0, state.binaryTree.length - 1],
-                        radioName: '删除'
+                        radioName: 'Delete'
                     }}
                     searchConfig={{
                         hasIndex: false,
                         hasValue: true,
                         valueRange: config.geoValueRange,
-                        radioName: '查找'
+                        radioName: 'Search'
                     }}
                     onSliderChange={handleSliderChange}
                     onAdd={handleAddEle}
@@ -249,10 +240,10 @@ const BinarySearchTree = () => {
                     operation={
                         <div className='btn-group'>
                             <div className='row'>
-                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>随机生成</Button>
-                                <Button icon={<BarChartOutlined />} onClick={handlePreorder}>前序遍历</Button>
-                                <Button icon={<BarChartOutlined />} onClick={handleInorder}>中序遍历</Button>
-                                <Button icon={<BarChartOutlined />} onClick={handlePostorder}>后序遍历</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>Random Generate</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handlePreorder}>Preorder Traversal</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handleInorder}>Inorder Traversal</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handlePostorder}>Postorder Traversal</Button>
                             </div>
                         </div>
                     }
@@ -266,7 +257,7 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`中序遍历: [${payload}]`}
+                                                title={`Inorder Traversal: [${payload}]`}
                                             />
                                         )
 
@@ -274,7 +265,7 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`前序遍历: [${payload}]`}
+                                                title={`Preorder Traversal: [${payload}]`}
                                             />
                                         )
 
@@ -282,7 +273,7 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`后序遍历: [${payload}]`}
+                                                title={`Postorder Traversal: [${payload}]`}
                                             />
                                         )
 
@@ -291,8 +282,8 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`新增结点: i=${index}, v=${value}`}
-                                                description={`当前二叉树: ${treeToString(cur)}`}
+                                                title={`Add Node: i=${index}, v=${value}`}
+                                                description={`Current Binary Tree: ${treeToString(cur)}`}
                                             />
                                         )
                                     }
@@ -302,8 +293,8 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`删除结点: i=${index}, v=${value}`}
-                                                description={`当前二叉树: ${treeToString(cur)}`}
+                                                title={`Delete Node: i=${index}, v=${value}`}
+                                                description={`Current Binary Tree: ${treeToString(cur)}`}
                                             />
                                         )
                                     }
@@ -312,7 +303,7 @@ const BinarySearchTree = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`当前二叉树: ${payload}`}
+                                                title={`Current Binary Tree: ${payload}`}
                                             />
                                         )
                                 }
@@ -325,17 +316,17 @@ const BinarySearchTree = () => {
                         icon={<DotChartOutlined />}
                         onClick={handleRandom}
                     >
-                        随机生成
+                        Random Generate
                     </Item>
 
                     {/* <SubMenu
                         key='item2'
                         icon={<BarChartOutlined />}
-                        title='遍历'
+                        title='Traversal'
                     >
-                        <Item onClick={handlePreorder}>前序遍历</Item>
-                        <Item onClick={handleInorder}>中序遍历</Item>
-                        <Item onClick={handlePostorder}>后序遍历</Item>
+                        <Item onClick={handlePreorder}>Preorder Traversal</Item>
+                        <Item onClick={handleInorder}>Inorder Traversal</Item>
+                        <Item onClick={handlePostorder}>Postorder Traversal</Item>
                     </SubMenu> */}
                 </Console>
 

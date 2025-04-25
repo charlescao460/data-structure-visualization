@@ -26,18 +26,18 @@ const Stack = () => {
         }
     });
 
-    /** stackCube的起始坐标 */
+    /** Starting coordinate of stackCube */
     const startPosY = getStartYPos(state.cubes.length);
 
-    /** 场景是否加载完毕 */
+    /** Whether the scene has finished loading */
     const [isSceneLoaded, setIsSceneLoaded] = useState(false);
 
-    /** 处理场景加载完毕回调 */
+    /** Handle scene loaded callback */
     const handleSceneLoaded = () => {
         setIsSceneLoaded(true);
     }
 
-    /** 渲染器生成数组 */
+    /** Render array in the renderer */
     const handleRender = (value: string) => {
         const parseRes = parseValue(value);
         if (Array.isArray(parseRes)) {
@@ -48,29 +48,29 @@ const Stack = () => {
         }
     }
 
-    /** 处理弹栈 */
+    /** Handle pop operation */
     const handlePop = () => {
         if (state.values.length > 0) {
             const sequence = popSeq();
             excuteSeq(sequence, config.animationSpeed, dispatch);
         } else {
-            message.warning('弹栈失败，当前栈为空')
+            message.warning('Failed to pop, the stack is empty')
         }
 
     }
 
-    /** 处理压栈 */
+    /** Handle push operation */
     const handlePush = (index: number, value: number) => {
         if (state.values.length < config.geoNumRange[1] + 4) {
             const sequence = pushSeq(value);
             excuteSeq(sequence, config.animationSpeed, dispatch);
         } else {
-            message.warning(`压栈失败，栈最大容量为${config.geoNumRange[1] + 4}`)
+            message.warning(`Failed to push, the maximum capacity of the stack is ${config.geoNumRange[1] + 4}`)
         }
 
     }
 
-    /** 处理随机元素 */
+    /** Handle random elements */
     const handleRandom = () => {
         let sequence = initSeq(randomArr(randomNum(config.geoNumRange), config.geoValueRange));
         excuteSeq(sequence, config.animationSpeed, dispatch);
@@ -83,7 +83,7 @@ const Stack = () => {
                     history.replace(root)
                     window.location.reload();
                 }}
-                title='栈'
+                title='Stack'
             />
             <div className='main'>
                 <Scene3d
@@ -117,12 +117,12 @@ const Stack = () => {
                         hasIndex: false,
                         hasValue: true,
                         valueRange: config.geoValueRange,
-                        radioName: '压栈'
+                        radioName: 'Push'
                     }}
                     deleteConfig={{
                         hasIndex: false,
                         hasValue: false,
-                        radioName: '弹栈'
+                        radioName: 'Pop'
                     }}
                     showSilider={false}
                     onAdd={handlePush}
@@ -132,7 +132,7 @@ const Stack = () => {
                     operation={
                         <div className='btn-group'>
                             <div className='row'>
-                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>随机生成</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>Generate Random</Button>
                             </div>
                         </div>
                     }
@@ -146,8 +146,8 @@ const Stack = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`弹栈: v=${payload.popValue}`}
-                                                description={`当前栈: [${payload.curValues.toString()}]`}
+                                                title={`Pop: v=${payload.popValue}`}
+                                                description={`Current stack: [${payload.curValues.toString()}]`}
                                             />
                                         )
 
@@ -155,8 +155,8 @@ const Stack = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`压栈: v=${payload.pushValue}`}
-                                                description={`当前栈: [${payload.curValues.toString()}]`}
+                                                title={`Push: v=${payload.pushValue}`}
+                                                description={`Current stack: [${payload.curValues.toString()}]`}
                                             />
                                         )
 
@@ -164,7 +164,7 @@ const Stack = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`当前栈: [${payload.toString()}]`}
+                                                title={`Current stack: [${payload.toString()}]`}
                                             />
                                         )
                                 }
@@ -177,7 +177,7 @@ const Stack = () => {
                         icon={<DotChartOutlined />}
                         onClick={handleRandom}
                     >
-                        随机生成
+                        Generate Random
                     </Item>
 
                 </Console>

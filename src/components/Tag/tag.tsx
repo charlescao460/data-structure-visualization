@@ -2,8 +2,10 @@ import { Tag as AntdTag } from 'antd'
 import { IBaseProps } from '../../types';
 import './tag.scss'
 
-export type TagType = '删除' | '添加' | '大顶堆' | '数组' | 'avl树' | 'B+树' | 'B树' | '二叉搜索树' | '图论' | '哈希表' | '二叉堆' | '链表' | '队列' | '红黑树' | '栈' | '排序' | '冒泡' | '快排' | '插入' | '选择' | '归并' | '遍历' | '压栈' | '弹栈' | '入队' | '出队' | '搜索' | '二分'
-export const MainTags: TagType[] = ['数组', '哈希表', '图论', '栈', '红黑树', '队列', '链表', '二叉堆', 'avl树', '二叉搜索树', 'B+树', 'B树']
+export type TagType = 'Delete' | 'Add' | 'Max Heap' | 'Array' | 'AVL Tree' | 'B+ Tree' | 'B Tree' | 'Binary Search Tree' | 'Graph' | 'Hash Table' | 'Binary Heap' | 'Linked List' | 'Queue' | 'Red-Black Tree' | 'Stack' | 'Sorting' | 'Bubble Sort' | 'Quick Sort' | 'Insertion Sort' | 'Selection Sort' | 'Merge Sort' | 'Traversal' | 'Push Stack' | 'Pop Stack' | 'Enqueue' | 'Dequeue' | 'Search' | 'Binary Search'
+
+export const MainTags: TagType[] = ['Array', 'Hash Table', 'Graph', 'Stack', 'Red-Black Tree', 'Queue', 'Linked List', 'Binary Heap', 'AVL Tree', 'Binary Search Tree', 'B+ Tree', 'B Tree']
+
 
 interface ITagsProps extends IBaseProps {
     /** 标签组类型 */

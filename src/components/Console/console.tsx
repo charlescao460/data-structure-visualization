@@ -9,48 +9,48 @@ import './console.scss'
 const { Item, SubMenu } = Menu;
 
 interface radioConfig {
-    /** 是否具有序号输入框 */
+    /** Whether to have an index input box */
     hasIndex?: boolean;
-    /** 是否具有数值输入框 */
+    /** Whether to have a value input box */
     hasValue?: boolean;
-    /** index取值范围 */
+    /** Index range */
     indexRange?: Range;
-    /** value取值范围 */
+    /** Value range */
     valueRange?: Range;
-    /** radioName 同时对应 buttonName */
+    /** radioName corresponding to buttonName */
     radioName?: string;
 }
 
 interface IConsoleProps extends IBaseProps {
-    /** 分别表示是否添加、删除、查找 */
+    /** Indicates whether to add, delete, search */
     radioGroup: [0 | 1, 0 | 1, 0 | 1];
-    /** 控制台左边的操作界面 */
+    /** Operation interface on the left side of the console */
     operation: React.ReactNode;
-    /** 控制台右边的显示器 */
+    /** Display on the right side of the console */
     displayer: React.ReactNode;
-    /** drawer的高度 */
+    /** Height of the drawer */
     drawerHeight?: number;
-    /** 是否有silider */
+    /** Whether to show the slider */
     showSilider?: boolean;
-    /** 添加元素输入框配置 */
+    /** Configuration for the add element input box */
     addConfig?: radioConfig;
-    /** 删除元素输入框配置 */
+    /** Configuration for the delete element input box */
     deleteConfig?: radioConfig;
-    /** 查找元素输入框配置 */
+    /** Configuration for the search element input box */
     searchConfig?: radioConfig;
-    /** 操作是否正在执行 */
+    /** Whether the operation is being executed */
     spinning?: boolean;
-    /** slider变化时的回调 */
+    /** Callback when the slider changes */
     onSliderChange?: (value: number) => void;
-    /** 点击添加时的回调 */
+    /** Callback when the add button is clicked */
     onAdd?: (value: number, index: number) => void;
-    /** 点击删除时的回调 */
+    /** Callback when the delete button is clicked */
     onDelete?: (value: number, index: number) => void;
-    /** 点击搜索时的回调 */
+    /** Callback when the search button is clicked */
     onSearch?: (value: number, index: number) => void;
-    /** 渲染器输入框变化时的回调 */
+    /** Callback when the renderer input box changes */
     onRenderChange?: (value: string) => void;
-    /** 点击渲染按钮时的回调 */
+    /** Callback when the render button is clicked */
     onRender?: (value: string) => void;
 }
 
@@ -79,7 +79,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
     const [hoverLeftRef, isLeftHover] = useHover();
     const [hoverRenderRef, isRenderHover] = useHover();
 
-    const [isUnfold, setIsUnfold] = useState(false);
+    const [isUnfold, setIsUnfold] = useState(true);
 
     const [addValue, setAddValue] = useState(randomNum(addConfig?.valueRange || [3, 37]));
     const [addIndex, setAddIndex] = useState(randomNum(addConfig?.indexRange || [0, 3]));
@@ -92,7 +92,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
 
     const [renderValue, setRenderValue] = useState('');
 
-    // 被激活的 radio
+    // Active radio
     const [radioActived, setRadioActived] = useState(0);
 
     const displayConRef = useRef<HTMLDivElement>();
@@ -102,7 +102,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
         config: config.gentle
     })
 
-    /** 当 displayer 里面的内容变多的时候，始终保持其滚动条位于底部 */
+    /** Keep the scrollbar at the bottom when the content in the displayer increases */
     useEffect(() => {
         if (displayConRef.current) displayConRef.current.scrollTop = displayConRef.current.scrollHeight;
     }, [displayConRef.current?.scrollHeight])
@@ -115,7 +115,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
         }
     }
 
-    /** 统计radioGroup中取值为1的个数是否为1 */
+    /** Check if the number of 1s in radioGroup is 1 */
     const isRadioOneNum = (radioGroup: any[]) => {
         let num = 0;
         if (radioGroup[0] === 1) num++;
@@ -133,7 +133,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                 ref={hoverLeftRef as any}
                 style={{ ...style, opacity: leftOpacity }}
             >
-                {/* 左侧栏 */}
+                {/* Left sidebar */}
                 <Menu
                     className='console'
                     mode="inline"
@@ -149,15 +149,15 @@ const Console: React.FC<IConsoleProps> = (props) => {
                             setIsUnfold(true);
                         }}
                     >
-                        展开操作台
+                        Expand Console
                 </Item>
                     {children}
                 </Menu>
 
-                {/* 抽屉 */}
+                {/* Drawer */}
                 <Drawer
                     className='console-drawer'
-                    title='操作台'
+                    title='Console'
                     height={drawerHeight}
                     visible={isUnfold}
                     placement='bottom'
@@ -168,7 +168,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                     <div className='operation'>
                         {showSilider &&
                             <div className='slider-warp'>
-                                动画速度：
+                                Animation Speed:
                             <Slider
                                     className='slider'
                                     defaultValue={80}
@@ -180,15 +180,15 @@ const Console: React.FC<IConsoleProps> = (props) => {
 
 
                         <Spin
-                            tip='操作执行中...'
+                            tip='Operation in progress...'
                             spinning={spinning}
                             indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />}
                         >
                             <div className='operation-main'>
-                                {/* 显示操作按钮 */}
+                                {/* Display operation buttons */}
                                 {operation}
 
-                                {/* 显示添加、删除 */}
+                                {/* Display add and delete */}
                                 <div className='input-group'>
                                     {
                                         !(isRadioOneNum(radioGroup)) ?
@@ -217,7 +217,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                     {
                                                         addConfig?.hasIndex &&
                                                         (<label>
-                                                            <span className='label-name'>序号:</span>
+                                                            <span className='label-name'>Index:</span>
                                                             <InputNumber
                                                                 min={(addConfig?.indexRange as unknown as number[])[0]}
                                                                 max={(addConfig?.indexRange as unknown as number[])[1]}
@@ -231,7 +231,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                     {
                                                         addConfig?.hasValue &&
                                                         (<label>
-                                                            <span className='label-name'>数值:</span>
+                                                            <span className='label-name'>Value:</span>
                                                             <InputNumber
                                                                 min={(addConfig?.valueRange as unknown as number[])[0]}
                                                                 max={(addConfig?.valueRange as unknown as number[])[1]}
@@ -249,7 +249,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                         {
                                                             deleteConfig?.hasIndex &&
                                                             (<label>
-                                                                <span className='label-name'>序号:</span>
+                                                                <span className='label-name'>Index:</span>
                                                                 <InputNumber
                                                                     min={(deleteConfig?.indexRange as unknown as number[])[0]}
                                                                     max={(deleteConfig?.indexRange as unknown as number[])[1]}
@@ -263,7 +263,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                         {
                                                             deleteConfig?.hasValue &&
                                                             (<label>
-                                                                <span className='label-name'>数值:</span>
+                                                                <span className='label-name'>Value:</span>
                                                                 <InputNumber
                                                                     min={(deleteConfig?.valueRange as unknown as number[])[0]}
                                                                     max={(deleteConfig?.valueRange as unknown as number[])[1]}
@@ -280,7 +280,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                         {
                                                             searchConfig?.hasIndex &&
                                                             (<label>
-                                                                <span className='label-name'>序号:</span>
+                                                                <span className='label-name'>Index:</span>
                                                                 <InputNumber
                                                                     min={(searchConfig?.indexRange as unknown as number[])[0]}
                                                                     max={(searchConfig?.indexRange as unknown as number[])[1]}
@@ -294,7 +294,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                                                         {
                                                             searchConfig?.hasValue &&
                                                             (<label>
-                                                                <span className='label-name'>数值:</span>
+                                                                <span className='label-name'>Value:</span>
                                                                 <InputNumber
                                                                     min={(searchConfig.valueRange as unknown as number[])?.[0]}
                                                                     max={(searchConfig.valueRange as unknown as number[])?.[1]}
@@ -339,7 +339,7 @@ const Console: React.FC<IConsoleProps> = (props) => {
                         onRenderChange?.(e.target.value.trim());
                     }}
                 />
-                <Button type='primary' onClick={() => { onRender?.(renderValue) }}>渲染</Button>
+                <Button type='primary' onClick={() => { onRender?.(renderValue) }}>Render</Button>
             </animated.div>
         </>
     )
@@ -353,28 +353,24 @@ Console.defaultProps = {
         hasValue: true,
         indexRange: [0, 10],
         valueRange: [3, 37],
-        radioName: '添加'
+        radioName: 'Add'
     },
     deleteConfig: {
         hasIndex: true,
         hasValue: true,
         indexRange: [0, 10],
         valueRange: [3, 37],
-        radioName: '删除'
+        radioName: 'Delete'
     },
     searchConfig: {
         hasIndex: true,
         hasValue: true,
         indexRange: [0, 10],
         valueRange: [3, 37],
-        radioName: '查找'
+        radioName: 'Search'
     },
     spinning: false
 }
 
 export { Item, SubMenu };
 export default Console;
-
-
-
-

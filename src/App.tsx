@@ -8,13 +8,13 @@ function App() {
     <div className="App">
       <Layout className='layout'>
         <Header className='header'>
-          <a href={root}>Data Structure Visualization</a>
+          <a href={root}>CS879 ROL: Data Structure Visualization</a>
         </Header>
         <Content className='content'>
           <RouterView />
         </Content>
         <Footer className='footer'>
-          DSV ©2021 Created by Dora and Conan
+          Created by Jiaben Chen and Shirui (Charles) Cao, based on framework by Dora and Conan
         </Footer>
       </Layout>
     </div>

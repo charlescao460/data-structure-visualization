@@ -29,42 +29,42 @@ const Queue = () => {
         }
     });
 
-    /** 场景是否加载完毕 */
+    /** Whether the scene is loaded */
     const [isSceneLoaded, setIsSceneLoaded] = useState(false);
 
-    /** 传入数组长度，计算第一个元素的起始x坐标 */
+    /** Calculate the starting x-coordinate of the first element based on the array length */
     const startPosX = getStartPosX(state.cubes.length);
 
-    /** 处理场景加载完毕回调 */
+    /** Handle the scene loaded callback */
     const handleSceneLoaded = () => {
         setIsSceneLoaded(true);
     }
 
-    /** 处理随机元素 */
+    /** Handle random elements */
     const handleRandom = () => {
         let sequence = initSeq(randomArr(randomNum(config.geoNumRange), config.geoValueRange));
         excuteSeq(sequence, config.animationSpeed, dispatch);
     }
 
-    /** 处理入队 */
+    /** Handle enqueue */
     const handleEnqueue = (index: number, value: number) => {
         if (state.values.length < config.geoNumRange[1] + 5) {
             const sequence = enqueueSeq(value, state.values.length);
             excuteSeq(sequence, config.animationSpeed, dispatch);
 
         } else {
-            message.warning(`入队失败，队列最大容量为${config.geoNumRange[1] + 5}`)
+            message.warning(`Failed to enqueue, the maximum capacity of the queue is ${config.geoNumRange[1] + 5}`)
         }
     }
 
-    /** 处理出队 */
+    /** Handle dequeue */
     const handleDequeue = () => {
         if (state.values.length > 0) {
             const sequence = dequeueSeq();
             excuteSeq(sequence, config.animationSpeed, dispatch);
 
         } else {
-            message.warning('出队失败，当前队列为空')
+            message.warning('Failed to dequeue, the queue is currently empty')
         }
 
     }
@@ -75,7 +75,7 @@ const Queue = () => {
                     history.replace(root)
                     window.location.reload();
                 }}
-                title='队列'
+                title='Queue'
             />
 
             <div className='main'>
@@ -111,12 +111,12 @@ const Queue = () => {
                         hasIndex: false,
                         hasValue: true,
                         valueRange: config.geoValueRange,
-                        radioName: '入队'
+                        radioName: 'Enqueue'
                     }}
                     deleteConfig={{
                         hasIndex: false,
                         hasValue: false,
-                        radioName: '出队'
+                        radioName: 'Dequeue'
                     }}
                     showSilider={false}
                     onAdd={handleEnqueue}
@@ -125,7 +125,7 @@ const Queue = () => {
                     operation={
                         <div className='btn-group'>
                             <div className='row'>
-                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>随机生成</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>Random Generate</Button>
                             </div>
                         </div>
                     }
@@ -139,8 +139,8 @@ const Queue = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`入队: v=${payload.enqueueValue}`}
-                                                description={`当前队列: [${payload.curValues.toString()}]`}
+                                                title={`Enqueue: v=${payload.enqueueValue}`}
+                                                description={`Current queue: [${payload.curValues.toString()}]`}
                                             />
                                         )
 
@@ -148,8 +148,8 @@ const Queue = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`出队: v=${payload.dequeueValue}`}
-                                                description={`当前队列: [${payload.curValues.toString()}]`}
+                                                title={`Dequeue: v=${payload.dequeueValue}`}
+                                                description={`Current queue: [${payload.curValues.toString()}]`}
                                             />
                                         )
 
@@ -157,7 +157,7 @@ const Queue = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`当前队列: [${payload.toString()}]`}
+                                                title={`Current queue: [${payload.toString()}]`}
                                             />
                                         )
                                 }
@@ -170,7 +170,7 @@ const Queue = () => {
                         icon={<DotChartOutlined />}
                         onClick={handleRandom}
                     >
-                        随机生成
+                        Random Generate
                     </Item>
 
                 </Console>

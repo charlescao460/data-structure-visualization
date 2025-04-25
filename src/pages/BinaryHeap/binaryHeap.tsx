@@ -27,10 +27,10 @@ const BinaryHeap = () => {
         }
     });
 
-    /** 场景是否加载完毕 */
+    /** Whether the scene is loaded */
     const [isSceneLoaded, setIsSceneLoaded] = useState(false);
 
-    /** 处理场景加载完毕回调 */
+    /** Handle scene loaded callback */
     const handleSceneLoaded = () => {
         setIsSceneLoaded(true);
     }
@@ -41,27 +41,27 @@ const BinaryHeap = () => {
             let sequence = initSeq(parseRes);
             excuteSeq(sequence, config.animationSpeed, dispatch);
         } else {
-            message.warning('输入的数据格式有误，请按照 "[1,3,8,2]" 类似格式输入')
+            message.warning('Invalid data format, please input in a format like "[1,3,8,2]"')
         }
     }
 
-    /** 添加元素 */
+    /** Add element */
     const handleAddEle = (index: number, value: number) => {
         if (getMaxDeepth(state.values) === 4) {
-            message.warning('添加失败，二叉堆最大层数为4')
+            message.warning('Failed to add, the maximum depth of the binary heap is 4')
         } else {
             let sequence = addSeq(state.values, value);
             excuteSeq(sequence, config.animationSpeed, dispatch)
         }
     }
 
-    /** 随机生成数据 */
+    /** Generate random data */
     const handleRandom = () => {
         let sequence = initSeq(randomBh(config.geoNumRange, config.geoValueRange));
         excuteSeq(sequence, config.animationSpeed, dispatch);
     }
 
-    /** 处理动画速度改变 */
+    /** Handle animation speed change */
     const handleSliderChange = (x: number) => {
         config.animationSpeed = -7.95 * x + 1000
     }
@@ -74,7 +74,7 @@ const BinaryHeap = () => {
                     history.replace(root)
                     window.location.reload();
                 }}
-                title='二叉堆'
+                title='Binary Heap'
             />
             <div className='main'>
                 <Scene3d
@@ -82,16 +82,16 @@ const BinaryHeap = () => {
                     cameraPosZ={config.cameraPosZ}
                 >
                     {state.geometries.map((sphere, i) => {
-                        // 判断当前结点是否有左孩子
+                        // Check if the current node has a left child
                         const hasLChild = getLChildValue(state.geometries, sphere.sortIndex)?.value;
 
-                        // 获取左结点的位置(加上前面的这个判断是为了在删除元素时，会设置与之连接的父结点的那条线为null)
+                        // Get the position of the left child (adding this condition is to set the line connecting the parent node to null when deleting an element)
                         const lChildPos = sphere.lChildPos !== null && getLChildValue(cdnOfNodes, sphere.sortIndex);
 
-                        // 判断当前结点是否有右孩子
+                        // Check if the current node has a right child
                         const hasRChild = sphere.rChildPos !== null && getRChildValue(state.geometries, sphere.sortIndex)?.value;
 
-                        // 获取右结点的位置
+                        // Get the position of the right child
                         const rChildPos = getRChildValue(cdnOfNodes, sphere.sortIndex);
 
                         return (
@@ -131,7 +131,7 @@ const BinaryHeap = () => {
                     addConfig={{
                         hasIndex: false,
                         hasValue: true,
-                        radioName: '添加',
+                        radioName: 'Add',
                         valueRange: config.geoValueRange
                     }}
                     onAdd={handleAddEle}
@@ -139,7 +139,7 @@ const BinaryHeap = () => {
                     operation={
                         <div className='btn-group'>
                             <div className='row'>
-                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>随机生成</Button>
+                                <Button icon={<BarChartOutlined />} onClick={handleRandom}>Generate Random</Button>
 
                             </div>
                         </div>
@@ -155,8 +155,8 @@ const BinaryHeap = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`新增结点:  v=${value}`}
-                                                description={`当前满二叉树: ${treeToString(cur)}`}
+                                                title={`Add Node:  v=${value}`}
+                                                description={`Current Full Binary Tree: ${treeToString(cur)}`}
                                             />
                                         )
                                     }
@@ -166,8 +166,8 @@ const BinaryHeap = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`交换结点:  i=${indexes[0]}, v=${state.values[indexes[0]]} | i=${indexes[1]}, v=${state.values[indexes[1]]}`}
-                                                description={`当前满二叉树: ${treeToString(cur)}`}
+                                                title={`Swap Nodes:  i=${indexes[0]}, v=${state.values[indexes[0]]} | i=${indexes[1]}, v=${state.values[indexes[1]]}`}
+                                                description={`Current Full Binary Tree: ${treeToString(cur)}`}
                                             />
                                         )
                                     }
@@ -176,7 +176,7 @@ const BinaryHeap = () => {
                                         return (
                                             <Step
                                                 key={'step' + i}
-                                                title={`当前二叉堆: ${payload}`}
+                                                title={`Current Binary Heap: ${payload}`}
                                             />
                                         )
                                 }
@@ -189,7 +189,7 @@ const BinaryHeap = () => {
                         icon={<DotChartOutlined />}
                         onClick={handleRandom}
                     >
-                        随机生成
+                        Generate Random
                     </Item>
                 </Console>
 
