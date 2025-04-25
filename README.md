@@ -1,4 +1,7 @@
 # COMPSCI879 ROL Project: Data Structure Visualizer
+
+[![Typescript Build & Deployment CI](https://github.com/charlescao460/data-structure-visualization/actions/workflows/github-pages-deploy.yml/badge.svg)](https://github.com/charlescao460/data-structure-visualization/actions/workflows/github-pages-deploy.yml)
+
 Team Member:
 * Jiaben Chen
 * Shirui Cao
